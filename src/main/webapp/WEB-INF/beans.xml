@@ -9,9 +9,22 @@
 	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 
-	<context:component-scan base-package="com.cxfjaxws" />
+	<context:component-scan base-package="com" />
 
-	<jaxws:endpoint id="EmployeeServiceEndpoint" implementor="com.service.cxfjaxws.EmployeePortTypeImpl"
-		address="/employeeService" />
+	<jaxws:endpoint id="EmployeeServiceEndpoint"
+		implementor="com.service.cxfjaxws.EmployeePortTypeImpl" address="/employeeService" />
+
+	<!-- Initialization for data source -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />
+		<property name="url"
+			value="jdbc:derby://localhost:1527/D:/study/db-derby-10.12.1.1-bin/bin/db" />
+	</bean>
+
+	<!-- Definition for EmpDaoImpl bean -->
+	<bean id="empDaoImpl" class="com.dao.EmpDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 
 </beans>
